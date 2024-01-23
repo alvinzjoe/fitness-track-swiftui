@@ -14,7 +14,9 @@ struct LoginPage: View {
     var body: some View {
         VStack(content: {
             VStack {
-                Text("Sign in").frame(maxWidth: .infinity,  alignment: .topLeading)
+                Image(systemName: "envelope")
+                Text("Sign in")
+                    .frame(maxWidth: .infinity,  alignment: .topLeading)
                 
                 VStack {
                     TextField("Email", text: $email)
@@ -25,12 +27,19 @@ struct LoginPage: View {
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
             
-            Group {
-                Button("Sign in") {
-                    self.teks = email + password;
-                }
+            Button(action: {
+                
+            }) {
+                Text("Continue")
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                    .padding()
+                    .foregroundColor(.primary)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.gray400)
+                    )
             }
-        })
+        }).padding()
     }
 }
 

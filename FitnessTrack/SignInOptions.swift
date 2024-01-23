@@ -63,14 +63,20 @@ struct SignInOptions: View {
                                     .foregroundColor(.primary)
                                     
                                     .overlay(
-                                        Image(systemName: "heart.fill")
-                                            .frame(width:60, height: 20)
-                                            .foregroundColor(.primary)
+                                        HStack {
+                                            Image("IconGoogle")
+                                                .resizable()
+                                                .frame(width:24, height: 24)
+                                                .aspectRatio(contentMode: .fill)
+                                                .scaledToFill()
+                                                .foregroundColor(.primary)
+                                        }
+                                            .padding()
                                         , alignment: .leading
                                     )
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 25)
-                                            .stroke(Color.black, lineWidth: 1)
+                                            .stroke(Color.gray400, lineWidth: 1)
                                 )
                             }
                             
@@ -85,14 +91,20 @@ struct SignInOptions: View {
                                     .foregroundColor(.primary)
                                     .padding()
                                     .overlay(
-                                        Image(systemName: "gear")
-                                            .frame(width: 60)
-                                            .foregroundColor(.primary)
+                                        HStack {
+                                            Image("IconApple")
+                                                .resizable()
+                                                .frame(width:24, height: 24)
+                                                .aspectRatio(contentMode: .fill)
+                                                .scaledToFill()
+                                                .foregroundColor(.primary)
+                                        }
+                                        .padding()
                                         , alignment: .leading
                                     )
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 25)
-                                            .stroke(Color.black, lineWidth:1)
+                                            .stroke(Color.gray400, lineWidth:1)
                                     )
                             }
                             
@@ -105,12 +117,18 @@ struct SignInOptions: View {
                                     .foregroundColor(.primary)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                                            .stroke(Color.black)
+                                            .stroke(Color.gray400)
                                     )
                                     .overlay(
-                                        Image(systemName: "ant")
-                                            .frame(width: 60)
-                                            .foregroundColor(.primary)
+                                        HStack {
+                                            Image("IconFacebook")
+                                                .resizable()
+                                                .frame(width:24, height: 24)
+                                                .aspectRatio(contentMode: .fill)
+                                                .scaledToFill()
+                                                .foregroundColor(.primary)
+                                        }
+                                            .padding()
                                         , alignment: .leading
                                     )
                             }
@@ -124,10 +142,10 @@ struct SignInOptions: View {
                                     .foregroundColor(.primary)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 25)
-                                            .stroke(Color.black)
+                                            .stroke(Color.gray400)
                                     )
                                     .overlay(
-                                        Image(systemName: "folder")
+                                        Image(systemName: "envelope")
                                             .frame(width: 60)
                                             .foregroundColor(.primary)
                                         , alignment: .leading
@@ -137,19 +155,19 @@ struct SignInOptions: View {
                                 
                             }) {
                                 Text("Skip for now")
+                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                                    .padding()
                                     .font(.subheadline)
                                     .foregroundColor(.primary)
                             }
                         }
                         Spacer()
                         
-                        Text("By continuing you automatically accept our Terms & Conditions, Privacy Policy and Cookies Policy")
+                        Text("By continuing you automatically accept our  \(Text("[Terms & Conditions](https://www.google.com)").underline()), \(Text("[Privacy Policy](https://www.google.com)").underline()) and  \(Text("[Cookies Policy](https://www.google.com)").underline())")
+                            .accentColor(Color.black)
                             .font(.caption)
-                            .padding()
-                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                            .frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .padding(.bottom)
                             .multilineTextAlignment(.center)
-                        
                     }
                     .padding()
                     .frame(maxWidth: .infinity)

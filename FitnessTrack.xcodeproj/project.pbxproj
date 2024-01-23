@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E121663F2B58F9090038A002 /* DashboardPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121663E2B58F9090038A002 /* DashboardPage.swift */; };
+		E1F287A42B5F5365003A7E0E /* WorkoutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F287A32B5F5365003A7E0E /* WorkoutPage.swift */; };
+		E1F287A92B5F953E003A7E0E /* ProfileTabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F287A82B5F953E003A7E0E /* ProfileTabPage.swift */; };
+		E1F287AB2B5F958C003A7E0E /* ExcercisePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F287AA2B5F958C003A7E0E /* ExcercisePage.swift */; };
+		E1F287AD2B5F95E7003A7E0E /* DashboardTabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F287AC2B5F95E7003A7E0E /* DashboardTabPage.swift */; };
 		E1F929DC2B510ADE00340191 /* FitnessTrackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F929DB2B510ADE00340191 /* FitnessTrackApp.swift */; };
 		E1F929DE2B510ADE00340191 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F929DD2B510ADE00340191 /* ContentView.swift */; };
 		E1F929E02B510ADF00340191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1F929DF2B510ADF00340191 /* Assets.xcassets */; };
@@ -36,6 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E121663E2B58F9090038A002 /* DashboardPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardPage.swift; sourceTree = "<group>"; };
+		E1F287A32B5F5365003A7E0E /* WorkoutPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPage.swift; sourceTree = "<group>"; };
+		E1F287A82B5F953E003A7E0E /* ProfileTabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabPage.swift; sourceTree = "<group>"; };
+		E1F287AA2B5F958C003A7E0E /* ExcercisePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcercisePage.swift; sourceTree = "<group>"; };
+		E1F287AC2B5F95E7003A7E0E /* DashboardTabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTabPage.swift; sourceTree = "<group>"; };
 		E1F929D82B510ADE00340191 /* FitnessTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitnessTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F929DB2B510ADE00340191 /* FitnessTrackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessTrackApp.swift; sourceTree = "<group>"; };
 		E1F929DD2B510ADE00340191 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +85,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E1F287A72B5F952B003A7E0E /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				E1F287A82B5F953E003A7E0E /* ProfileTabPage.swift */,
+				E1F287AA2B5F958C003A7E0E /* ExcercisePage.swift */,
+				E1F287AC2B5F95E7003A7E0E /* DashboardTabPage.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		E1F929CF2B510ADE00340191 = {
 			isa = PBXGroup;
 			children = (
@@ -98,12 +118,15 @@
 		E1F929DA2B510ADE00340191 /* FitnessTrack */ = {
 			isa = PBXGroup;
 			children = (
+				E1F287A72B5F952B003A7E0E /* Dashboard */,
 				E1F929DB2B510ADE00340191 /* FitnessTrackApp.swift */,
 				E1F929DD2B510ADE00340191 /* ContentView.swift */,
-				E1F929DF2B510ADF00340191 /* Assets.xcassets */,
-				E1F929E12B510ADF00340191 /* Preview Content */,
 				E1F92A052B510B0400340191 /* LoginPage.swift */,
 				E1F92A072B51123D00340191 /* SignInOptions.swift */,
+				E121663E2B58F9090038A002 /* DashboardPage.swift */,
+				E1F287A32B5F5365003A7E0E /* WorkoutPage.swift */,
+				E1F929DF2B510ADF00340191 /* Assets.xcassets */,
+				E1F929E12B510ADF00340191 /* Preview Content */,
 			);
 			path = FitnessTrack;
 			sourceTree = "<group>";
@@ -263,9 +286,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1F287A42B5F5365003A7E0E /* WorkoutPage.swift in Sources */,
 				E1F929DE2B510ADE00340191 /* ContentView.swift in Sources */,
 				E1F92A062B510B0400340191 /* LoginPage.swift in Sources */,
 				E1F92A082B51123D00340191 /* SignInOptions.swift in Sources */,
+				E1F287A92B5F953E003A7E0E /* ProfileTabPage.swift in Sources */,
+				E1F287AD2B5F95E7003A7E0E /* DashboardTabPage.swift in Sources */,
+				E121663F2B58F9090038A002 /* DashboardPage.swift in Sources */,
+				E1F287AB2B5F958C003A7E0E /* ExcercisePage.swift in Sources */,
 				E1F929DC2B510ADE00340191 /* FitnessTrackApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
