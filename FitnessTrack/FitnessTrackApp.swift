@@ -11,7 +11,6 @@ import SwiftUI
 struct FitnessTrackApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
             DashboardPage()
         }
     }

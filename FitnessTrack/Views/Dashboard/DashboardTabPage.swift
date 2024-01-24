@@ -7,40 +7,21 @@
 
 import SwiftUI
 
-struct Dates: Identifiable {
-    var id: String = UUID().uuidString
-    var date: Date = Date()
-    var day: String = ""
-    var isActive: Bool = false;
-    var isDidWorkout: Bool = false
-}
-
 struct DashboardTabPage: View {
     @State var showSheet : Bool = false
     
-    private var calendar: Calendar {
-        var calendar = Calendar.current
-        calendar.firstWeekday = 2 // Set first weekday to Monday (1 is Sunday, 2 is Monday)
-        return calendar
-    }
-    
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d/M"
-        return formatter
-    }()
-    
     @State private var showingAlert = false
+    @State private var selectedIndex: Int = 0
     
-    @State private var datesArray: [Dates] = []
+    @ObservedObject var dashboardDateViewModel: DashboardDateViewModel = DashboardDateViewModel();
     
     var body: some View {
-        NavigationView(content: {
+        VStack {
             VStack{
                 HStack {
                     ForEach(0..<7) { index in
-                        let date = self.date(for: index)
-                        let day = self.day(for: date)
+                        let date = dashboardDateViewModel.date(for: index)
+                        let day = dashboardDateViewModel.day(for: date)
                         
                         VStack {
                             Circle()
@@ -48,13 +29,15 @@ struct DashboardTabPage: View {
                                 .overlay {
                                     VStack {
                                         Text(day.prefix(2)).font(.caption2)
-                                        Text(self.dateFormatter.string(from: date)).font(.caption2)
+                                        Text(dashboardDateViewModel.dateFormatter.string(from: date)).font(.caption2)
                                     }
                                 }
                                 .onTapGesture {
                                     showingAlert = true
+                                    selectedIndex = index
+                                    
                                 }
-                                .alert("\(self.dateFormatter.string(from: date))", isPresented: $showingAlert) {
+                                .alert("\(dashboardDateViewModel.date(for: selectedIndex)) \(dashboardDateViewModel.formatToday())", isPresented: $showingAlert) {
                                     Button("OK", role: .cancel) { }
                                 }
                         }
@@ -66,6 +49,15 @@ struct DashboardTabPage: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
+                
+                NavigationLink("Exercise List") {
+                    WorkoutPage()
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+            }
+            .onAppear {
+                dashboardDateViewModel.selectedDate = dashboardDateViewModel.formatToday(string: "10/01/2024")
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationTitle("Dashboard")
@@ -82,37 +74,7 @@ struct DashboardTabPage: View {
             })
             
             
-        })
-        
-        
-    }
-    
-    private func generateDate(){
-        ForEach(0..<7) { index in
-            let date = self.date(for: index)
-            let day = self.day(for: date)
-            
-//            datesArray.append(Dates(date: date, day: day, isActive: false, isDidWorkout: false)
         }
-    }
-    
-    private func date(for dayIndex: Int) -> Date {
-        let currentDate = calendar.startOfDay(for: self.getMonday(myDate: Date()))
-        return calendar.date(byAdding: .day, value: dayIndex, to: currentDate) ?? Date()
-    }
-    
-    func getMonday(myDate: Date) -> Date {
-        let cal = Calendar.current
-        var comps = cal.dateComponents([.weekOfYear, .yearForWeekOfYear], from: myDate)
-        comps.weekday = 2 // Monday
-        let mondayInWeek = cal.date(from: comps)!
-        return mondayInWeek
-    }
-
-    private func day(for date: Date) -> String {
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "EEEE"
-        return dayFormatter.string(from: date)
     }
 }
 
