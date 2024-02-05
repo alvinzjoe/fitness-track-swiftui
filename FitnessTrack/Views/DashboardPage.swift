@@ -27,6 +27,7 @@ struct DashboardPage: View {
                         }
                         .tag(1)
             }
+            .tabViewStyle(DefaultTabViewStyle())
         }
         
 }
