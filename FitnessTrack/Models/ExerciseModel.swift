@@ -12,4 +12,5 @@ struct ExerciseModel: Identifiable {
     var imageURL: String
     var headline: String
     var subheadline: String
+    var sets: [SetsModel] = []
 }

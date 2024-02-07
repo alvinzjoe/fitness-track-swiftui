@@ -2,61 +2,45 @@
 //  WorkoutPage.swift
 //  FitnessTrack
 //
-//  Created by Alvin Amri on 23/01/24.
+//  Created by Alvin Amri on 06/02/24.
 //
 
 import SwiftUI
 
 struct WorkoutPage: View {
-    @ObservedObject var exerciseViewModel: ExerciseViewModel = ExerciseViewModel();
-    @State var showingAlert: Bool = false
+    
+    @Binding var workout: WorkoutModel
+    
+    //@State var workout: WorkoutModel = WorkoutModel(date: Date(), notes: "", exercises: [])
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List {
-                    ForEach(exerciseViewModel.filteredExercises) { exercise in
-                        HStack {
-                            Image("\(exercise.imageURL)")
-                                .resizable(resizingMode: .stretch)
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Spacer()
-                                .frame(width: 15)
-                            VStack {
-                                Text("\(exercise.headline)")
-                                    .font(.title)
-                                    .multilineTextAlignment(.leading)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text("\(exercise.subheadline)")
-                                    .font(.subheadline)
-                                    .multilineTextAlignment(.leading)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        }
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .onTapGesture {
-                            showingAlert = true
-                        }
-                        .alert("\(exercise.headline)", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
-                        }
+        VStack {
+            List {
+                ForEach(Array(workout.exercises.enumerated()), id: \.offset) { index, exercise in
+                    NavigationLink(destination: ExcercisePage(exercise: self.$workout.exercises[index])) {
+                        Text(exercise.headline)
                     }
-                } .searchable(text: $exerciseViewModel.searchText)
-                
+                    
+                }
             }
+            Spacer()
             
-            
+            NavigationLink(destination: ExcerciseListPage(filtered: $workout.exercises)) {
+                Text("Select exercise")
+                    .font(.headline)
+                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(20)
+                
+            }.buttonStyle(BorderedProminentButtonStyle())
+                .padding()
         }
-        .navigationTitle("Start workout")
-        .onAppear {
-            exerciseViewModel.generateData();
-        }
+        .navigationTitle("Workout")
     }
 }
 
 #Preview {
-    WorkoutPage()
+    NavigationStack {
+        WorkoutPage(workout: .constant(WorkoutModel(date: Date(), notes: "", exercises: [])))
+    }
 }

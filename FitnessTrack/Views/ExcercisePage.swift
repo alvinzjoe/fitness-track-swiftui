@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct ExcercisePage: View {
-    @State var sets : [SetsModel] = [
-        SetsModel(reps: "0", weight: "0"),
-        SetsModel(reps: "0", weight: "0"),
-        SetsModel(reps: "0", weight: "0")
-    ]
-    
     @State private var showAlert = false
+    
+    @Binding var exercise: ExerciseModel
     
     var body: some View {
         NavigationView {
@@ -23,10 +19,10 @@ struct ExcercisePage: View {
                     Image("dumbellPress")
                         .resizable(resizingMode: .stretch)
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: .infinity, height: 250)
+                        .frame(width: 300, height: 250)
                         .clipped()
                     
-                    Text("Dumbell Press")
+                    Text("\(exercise.headline)")
                         .font(.largeTitle)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .textSelection(.enabled)
@@ -47,12 +43,7 @@ struct ExcercisePage: View {
                                 Text("Weight (Kg)").font(.caption)
                             }
                         ).padding()
-                        List {
-                            ForEach(sets) { set in
-                                Text("test")
-                            }
-                        }
-                        ForEach(sets.indices, id: \.self) { index in
+                        ForEach(exercise.sets.indices, id: \.self) { index in
                             LazyVGrid(
                                 columns: [
                                     GridItem(.flexible()),
@@ -67,13 +58,13 @@ struct ExcercisePage: View {
                                             Text("\(index+1)")
                                         }
                                     
-                                    TextField("Reps", text: $sets[index].reps)
+                                    TextField("0", text: $exercise.sets[index].reps)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.numberPad)
                                     
                                     
-                                    TextField("Weight", text: $sets[index].weight)
+                                    TextField("0", text: $exercise.sets[index].weight)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
                                         .keyboardType(.numberPad)
@@ -90,7 +81,7 @@ struct ExcercisePage: View {
                                     Text("+")
                                 }
                                 .onTapGesture {
-                                    sets.append(SetsModel(reps: "0", weight: "0"))
+                                    exercise.sets.append(SetsModel(reps: "", weight: ""))
                                 }
                         }
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity, alignment:.leading)
@@ -106,9 +97,19 @@ struct ExcercisePage: View {
             }
             //.padding(
         }
+        .onAppear {
+            if exercise.sets.count <= 0 {
+                exercise.sets = [
+                    SetsModel(reps: "", weight: ""),
+                    SetsModel(reps: "", weight: ""),
+                    SetsModel(reps: "", weight: "")
+                ]
+            }
+            
+        }
     }
 }
 
 #Preview {
-    ExcercisePage()
+    ExcercisePage(exercise: .constant(ExerciseModel(id: "", imageURL: "dumbellPress", headline: "Dumbell press", subheadline: "Chest")))
 }

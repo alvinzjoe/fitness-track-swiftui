@@ -12,6 +12,7 @@ struct FitnessTrackApp: App {
     var body: some Scene {
         WindowGroup {
             DashboardPage()
+                .environment(\.colorScheme, .light) // Disable dark mode
         }
     }
 }

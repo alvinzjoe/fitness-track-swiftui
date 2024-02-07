@@ -12,9 +12,10 @@ class ExerciseViewModel: ObservableObject {
     @Published var searchText: String = ""
     
     func generateData() {
-        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Benchpress", subheadline: "z"))
-        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Chest press", subheadline: "c"))
-        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Benchpress", subheadline: "a"))
+        exercises = []
+        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Benchpress", subheadline: "Chest"))
+        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Chest press", subheadline: "Chest"))
+        exercises.append(ExerciseModel(imageURL: "dumbellPress", headline: "Dumbell curl", subheadline: "Biceps"))
     }
     var filteredExercises: [ExerciseModel] {
         guard !searchText.isEmpty else { return exercises }

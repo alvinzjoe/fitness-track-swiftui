@@ -22,8 +22,12 @@ struct DashboardTabPage: View {
     
     @State var selectedTab:Int = 2;
     
+    @State var isWorkoutToday : Bool = false
+    
+    @State var workout: WorkoutModel = WorkoutModel(date: Date(), notes: "", exercises: [])
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack{
                 TabView(selection: $selectedTab){
                     DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date())!)
@@ -65,36 +69,42 @@ struct DashboardTabPage: View {
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .frame(height: 80)
+                VStack {
+                    if(workout.exercises.count > 0 ) {
+                        List {
+                            NavigationLink(destination: WorkoutPage(workout: $workout)) {
+                                VStack {
+                                    Text("Exercises")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    HStack(spacing: 0) {
+                                        ForEach(Array(workout.exercises.enumerated()), id: \.offset) { index, exercise in
+                                            Text(exercise.headline).font(.caption)
+                                            if index != workout.exercises.count-1 {
+                                                Text(", ").font(.caption)
+                                            }
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                    }
+                }
                 
-//                .gesture(
-//                    DragGesture()
-//                    .onEnded { value in
-//                        if value.translation.width < -50 {
-//                            // Swipe left, show next week
-//                            dashboardDateViewModel.selectedDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: dashboardDateViewModel.selectedDate)!
-////                                dashboardDateViewModel.selectedDate = dashboardDateViewModel.formatToday(string: "10/01/2024")
-//                            
-//                        } else if value.translation.width > 50 {
-//                            // Swipe right, show previous week
-//                            dashboardDateViewModel.selectedDate = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: dashboardDateViewModel.selectedDate)!
-//                            
-//                        }
-//                    }
-//                )
-//                NavigationLink("Start Workout") {
-//                    StartWorkoutScreen()
-//                }
-//                .buttonStyle(.borderedProminent)
-//                .controlSize(.large)
-//                
-//                NavigationLink("Exercise List") {
-//                    WorkoutPage()
-//                }
-//                .buttonStyle(.borderedProminent)
-//                .controlSize(.large)
-                
-                
-                TodayWorkoutList()
+                Spacer()
+                VStack {
+                    NavigationLink(destination: WorkoutPage(workout: $workout)) {
+                        Text("Start workout")
+                            .font(.headline)
+                            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                            .frame(maxWidth: .infinity)
+                            .cornerRadius(20)
+                        
+                    }.buttonStyle(BorderedProminentButtonStyle())
+                    
+                }
+                .padding()
             }
             .frame(maxHeight: .infinity, alignment: .topLeading)
             .navigationTitle("Dashboard")
@@ -182,15 +192,9 @@ struct CalendarSelectorSheet: View {
 struct StartWorkoutScreen: View {
     var body: some View {
         VStack {
-            ExcercisePage()
+            //ExcercisePage()
         }.navigationTitle("Start Workout");
     }
-}
-
-struct SetsModel: Identifiable {
-    var id: String = UUID().uuidString
-    var reps: String
-    var weight: String
 }
 
 struct TodayWorkoutList: View {
