@@ -10,36 +10,47 @@ import SwiftUI
 struct LoginPage: View {
     @State var email : String = "";
     @State var password : String = "";
-    @State var teks : String = "default";
+    
     var body: some View {
-        VStack(content: {
-            VStack {
-                Image(systemName: "envelope")
-                Text("Sign in")
-                    .frame(maxWidth: .infinity,  alignment: .topLeading)
-                
+        
+        NavigationStack {
+            VStack(content: {
                 VStack {
-                    TextField("Email", text: $email)
-                    SecureField("Password", text: $password)
-                    Text("\(teks)")
+                    VStack {
+                        FloatingTextField(fieldValue: $email, fieldLabel: "Email")
+                        
+                        FloatingTextField(fieldValue: $password, fieldLabel: "Password", isSecurityField: true)
+                        
+                        HStack {
+                            Button("Forgot Password") {
+                                
+                            }
+                            .font(.subheadline)
+                            .frame(alignment: .leading)
+                            .padding(.top, 10)
+                            .foregroundStyle(.primary)
+                            Spacer()
+                        }
+                    }
+                    .frame( alignment: .topLeading)
                 }
-                .frame( alignment: .topLeading)
-            }
-            .frame(maxHeight: .infinity, alignment: .topLeading)
-            
-            Button(action: {
+                .frame(maxHeight: .infinity, alignment: .topLeading)
                 
-            }) {
-                Text("Continue")
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding()
-                    .foregroundColor(.primary)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.gray400)
-                    )
-            }
-        }).padding()
+                NavigationLink(destination: EmptyView()) {
+                    Text("Sign in")
+                        .font(.headline)
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(20)
+                    
+                }.buttonStyle(BorderedProminentButtonStyle())
+                
+                Text("Don't have an account? \(Text("Sign up!").bold())")
+                    .padding(.top, 20)
+                
+            }).padding()
+                .navigationTitle("Sign in")
+        }
     }
 }
 
