@@ -26,49 +26,34 @@ struct DashboardTabPage: View {
     
     @State var workout: WorkoutModel = WorkoutModel(date: Date(), notes: "", exercises: [])
     
+    @State var activeDate : Date = Date();
+    
     var body: some View {
         NavigationStack {
             VStack{
                 TabView(selection: $selectedTab){
-                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date())!)
-                        .tabItem {
-                            Image(systemName: "globe")
-                            Text("Browse")
-                        }
+                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: -2, to: Date())!, activeDates: $activeDate)
                         .tag(0)
                     
-                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: Date())!)
-                        .tabItem {
-                            Image(systemName: "globe")
-                            Text("Browse")
-                        }
+                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: -1, to: Date())!, activeDates: $activeDate)
                         .tag(1)
                     
-                    DateLoop(selectedDate: Date())
-                        .tabItem {
-                            Image(systemName: "person")
-                            Text("Profile")
-                        }
+                    DateLoop(selectedDate: Date(), activeDates: $activeDate)
                         .tag(2)
                     
-                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: 1, to: Date())!)
-                        .tabItem {
-                            Image(systemName: "globe")
-                            Text("Browse")
-                        }
+                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: 1, to: Date())!, activeDates: $activeDate)
                         .tag(3)
                     
-                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: 2, to: Date())!)
-                        .tabItem {
-                            Image(systemName: "globe")
-                            Text("Browse")
-                        }
+                    DateLoop(selectedDate: Calendar.current.date(byAdding: .weekOfYear, value: 2, to: Date())!, activeDates: $activeDate)
                         .tag(4)
                     
                     
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .frame(height: 80)
+                .onChange(of: selectedTab) { oldValue, newValue in
+                    activeDate = Calendar.current.date(byAdding: .weekOfYear, value: (selectedTab-2), to: Date())!
+                }
                 VStack {
                     if(workout.exercises.count > 0 ) {
                         List {
@@ -144,11 +129,21 @@ struct CardView: View {
 struct DateLoop: View {
     @State private var showingAlert = false
     @State private var selectedIndex: Int = 0
+    @Binding var activeDate: Date
     
     @ObservedObject var dashboardDateViewModel: DashboardDateViewModel = DashboardDateViewModel();
     
-    init(selectedDate: Date) {
-        self.dashboardDateViewModel.selectedDate = selectedDate
+    init(selectedDate: Date, activeDates: Binding<Date>) {
+        _activeDate = activeDates
+        dashboardDateViewModel.selectedDate = selectedDate
+        
+    }
+    
+    func isSameDate(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        let components1 = calendar.dateComponents([.year, .month, .day], from: date1)
+        let components2 = calendar.dateComponents([.year, .month, .day], from: date2)
+        return components1 == components2
     }
     
     var body: some View {
@@ -156,23 +151,23 @@ struct DateLoop: View {
             ForEach(0..<7) { index in
                 let date = dashboardDateViewModel.date(for: index)
                 let day = dashboardDateViewModel.day(for: date)
-                
+                let isActive = isSameDate(date1: date, date2: activeDate);
                 VStack {
                     Circle()
-                        .foregroundColor(Color.yellow)
+                        .foregroundColor( (isActive) ? Color.black : Color.yellow)
                         .overlay {
                             VStack {
-                                Text(day.prefix(2)).font(.caption2)
-                                Text(dashboardDateViewModel.dateFormatter.string(from: date)).font(.caption2)
+                                Text(day.prefix(2))
+                                    .font(.caption2)
+                                    .foregroundStyle((isActive) ? .white : .primary)
+                                Text(dashboardDateViewModel.dateFormatter.string(from: date))
+                                    .font(.caption2)
+                                    .foregroundStyle((isActive) ? .white : .primary)
                             }
                         }
                         .onTapGesture {
-                            showingAlert = true
                             selectedIndex = index
-                            
-                        }
-                        .alert("\(dashboardDateViewModel.date(for: selectedIndex)) \(dashboardDateViewModel.formatToday())", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
+                            activeDate = date
                         }
                 }
             }
