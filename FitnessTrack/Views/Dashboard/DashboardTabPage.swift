@@ -63,10 +63,15 @@ struct DashboardTabPage: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     HStack(spacing: 0) {
                                         ForEach(Array(workout.exercises.enumerated()), id: \.offset) { index, exercise in
-                                            Text(exercise.headline).font(.caption)
-                                            if index != workout.exercises.count-1 {
-                                                Text(", ").font(.caption)
+                                            if(index < 3) {
+                                                Text(exercise.headline).font(.caption)
+                                                if index != workout.exercises.count-1 {
+                                                    Text(", ").font(.caption)
+                                                }
                                             }
+                                        }
+                                        if(workout.exercises.count > 3) {
+                                            Text("...")
                                         }
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,15 +159,15 @@ struct DateLoop: View {
                 let isActive = isSameDate(date1: date, date2: activeDate);
                 VStack {
                     Circle()
-                        .foregroundColor( (isActive) ? Color.black : Color.yellow)
+                        .foregroundColor( (isActive) ? Color.accentColor : Color.primary)
                         .overlay {
                             VStack {
                                 Text(day.prefix(2))
                                     .font(.caption2)
-                                    .foregroundStyle((isActive) ? .white : .primary)
+                                    .foregroundStyle((isActive) ? Color.gray400 : .gray400)
                                 Text(dashboardDateViewModel.dateFormatter.string(from: date))
                                     .font(.caption2)
-                                    .foregroundStyle((isActive) ? .white : .primary)
+                                    .foregroundStyle((isActive) ?  Color.gray400 : .gray400)
                             }
                         }
                         .onTapGesture {
